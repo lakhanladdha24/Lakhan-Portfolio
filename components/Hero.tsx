@@ -122,7 +122,7 @@ const Hero: React.FC = () => {
 
             <a
               href="/resume.pdf"
-              download="/Users/lakhanladdha/Downloads/Lakhan Laddha-2.pdf"
+              download="https://drive.google.com/file/d/1qvq_LwE_SY5Kw262jfM5px4WyKipdgAC/view?usp=drive_link"
               className="group px-8 py-4 glass-panel border border-white/10 text-white font-bold rounded-lg transition-all hover:bg-white/5 hover:scale-105 flex items-center gap-2"
             >
               Download CV

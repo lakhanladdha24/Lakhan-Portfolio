@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
-import Background from './components/Background';
+import FuturisticBackground from './components/FuturisticBackground';
+import HoverboardCursor from './components/HoverboardCursor';
 import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
@@ -13,21 +14,11 @@ import Footer from './components/Footer';
 
 const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     // Simulate initial loading sequence
     const timer = setTimeout(() => setIsLoading(false), 2000);
-    
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-    
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -36,7 +27,7 @@ const App: React.FC = () => {
         {isLoading && (
           <motion.div
             key="loader"
-            exit={{ 
+            exit={{
               opacity: 0,
               transition: { duration: 0.8, ease: "easeInOut" }
             }}
@@ -49,7 +40,7 @@ const App: React.FC = () => {
               className="relative w-24 h-24 mb-6"
             >
               <div className="absolute inset-0 border-4 border-cyan-400/20 rounded-full" />
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 border-4 border-t-cyan-400 rounded-full"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
@@ -72,21 +63,21 @@ const App: React.FC = () => {
 
       <motion.div
         initial={{ scale: 1.2, opacity: 0, filter: 'blur(10px)' }}
-        animate={!isLoading ? { 
-          scale: 1, 
-          opacity: 1, 
-          filter: 'blur(0px)' 
+        animate={!isLoading ? {
+          scale: 1,
+          opacity: 1,
+          filter: 'blur(0px)'
         } : {}}
-        transition={{ 
-          duration: 1.5, 
+        transition={{
+          duration: 1.5,
           ease: [0.22, 1, 0.36, 1], // Quintic Out
           delay: 0.2
         }}
         className="relative min-h-screen"
       >
-        <Background />
+        <FuturisticBackground />
         <Navbar />
-        
+
         <main>
           <Hero />
           <About />
@@ -99,13 +90,7 @@ const App: React.FC = () => {
         <Footer />
       </motion.div>
 
-      {/* Custom Cursor Light Effect */}
-      <div 
-        className="fixed inset-0 pointer-events-none z-[60] mix-blend-screen opacity-50"
-        style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(34, 211, 238, 0.1), transparent 80%)`
-        }}
-      />
+      <HoverboardCursor />
     </div>
   );
 };

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './components/Navbar';
 import FuturisticBackground from './components/FuturisticBackground';
 import HoverboardCursor from './components/HoverboardCursor';
+import FloatingHUD from './components/FloatingHUD';
 import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
@@ -90,6 +91,7 @@ const App: React.FC = () => {
         <Footer />
       </motion.div>
 
+      <FloatingHUD />
       <HoverboardCursor />
     </div>
   );

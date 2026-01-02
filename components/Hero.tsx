@@ -1,19 +1,20 @@
-
 import React, { useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { ChevronDown, Github, Linkedin, ExternalLink } from 'lucide-react';
 
 const ROLES = [
-  { text: "Data Analyst", emoji: "📊" },
-  { text: "BI Analyst", emoji: "📈" },
-  { text: "ML Engineer", emoji: "🤖" }
+  { text: "AI Engineer", emoji: "🤖" },
+  { text: "ML Engineer", emoji: "🧠" },
+  { text: "NLP Specialist", emoji: "🗣️" },
+  { text: "Deep Learning", emoji: "🕸️" },
+  { text: "Data Scientist", emoji: "📊" }
 ];
 
 const Hero: React.FC = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  
+
   const [roleIndex, setRoleIndex] = useState(0);
 
   useEffect(() => {
@@ -26,11 +27,11 @@ const Hero: React.FC = () => {
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
       {/* Background Decorative Element */}
-      <motion.div 
+      <motion.div
         style={{ y: y1, opacity }}
         className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] border border-cyan-500/10 rounded-full"
       />
-      
+
       <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center justify-center gap-12 lg:gap-24 text-center md:text-left">
         {/* Left Side: Profile Image */}
         <motion.div
@@ -41,9 +42,9 @@ const Hero: React.FC = () => {
         >
           <div className="absolute -inset-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
           <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-[400px] lg:h-[400px] rounded-2xl overflow-hidden border-2 border-white/10 glass-panel shadow-2xl">
-            <img 
-              src="https://res.cloudinary.com/dcqeyu7bh/image/upload/v1766822200/Gemini_Generated_Image_h9xsagh9xsagh9xs_wj5qdc.png" 
-              alt="Lakhan Laddha" 
+            <img
+              src="https://res.cloudinary.com/dcqeyu7bh/image/upload/v1766822200/Gemini_Generated_Image_h9xsagh9xsagh9xs_wj5qdc.png"
+              alt="Lakhan Laddha"
               className="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
             />
           </div>
@@ -71,7 +72,7 @@ const Hero: React.FC = () => {
             Lakhan <span className="text-glow-cyan text-cyan-400">Laddha</span>
           </motion.h1>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -100,8 +101,8 @@ const Hero: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="text-lg text-slate-400 mb-10 leading-relaxed max-w-lg"
           >
-            Aspiring AI Engineer skilled in 
-            <span className="text-white"> Python</span>, <span className="text-white">Web Development</span>, 
+            Aspiring AI Engineer skilled in
+            <span className="text-white"> Python</span>, <span className="text-white">Web Development</span>,
             and <span className="text-white">Generative AI</span>, focused on solving real-world problems.
           </motion.p>
 
@@ -111,15 +112,15 @@ const Hero: React.FC = () => {
             transition={{ delay: 0.4 }}
             className="flex flex-col sm:flex-row items-center md:justify-start justify-center gap-4"
           >
-            <a 
+            <a
               href="#projects"
               className="group relative px-8 py-4 bg-cyan-500 text-slate-950 font-bold rounded-lg overflow-hidden transition-all hover:scale-105"
             >
               <span className="relative z-10">View Projects</span>
               <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition-opacity" />
             </a>
-            
-            <a 
+
+            <a
               href="#contact"
               className="group px-8 py-4 glass-panel border border-white/10 text-white font-bold rounded-lg transition-all hover:bg-white/5 hover:scale-105"
             >

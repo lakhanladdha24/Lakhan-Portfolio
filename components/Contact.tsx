@@ -5,17 +5,40 @@ import { Send, Mail, MapPin, Phone, Github, Linkedin, Twitter } from 'lucide-rea
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [result, setResult] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // For a real production app, you'd use a service like Formspree, EmailJS, or a custom backend.
-    // For now, we simulate the success and provide a mailto fallback for the user.
-    const subject = `Portfolio Inquiry from ${formData.name}`;
-    const body = `Name: ${formData.name}%0D%0AEmail: ${formData.email}%0D%0A%0D%0AMessage:%0D%0A${formData.message}`;
-    window.location.href = `mailto:lakhanladdha48@gmail.com?subject=${subject}&body=${body}`;
-    
-    alert(`Thank you ${formData.name}! Your email client should now open with your message.`);
-    setFormData({ name: '', email: '', message: '' });
+    setResult("Sending...");
+
+    // Create FormData object from the form element
+    const formData = new FormData(e.currentTarget);
+    formData.append("access_key", "9e69ad7f-ba01-4810-948b-73c4e2e115bc");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setResult("Success! Message sent.");
+        // Optional: clear the form visual state if controlled inputs are kept, 
+        // but since we are using FormData, we can just reset the form element
+        (e.target as HTMLFormElement).reset();
+        // Also reset local state if we want to clear the inputs visually via React state
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setResult("Error! Something went wrong.");
+      }
+    } catch (error) {
+      setResult("Error! Connection failed.");
+    }
+
+    // Clear result message after 5 seconds
+    setTimeout(() => setResult(""), 5000);
   };
 
   return (
@@ -35,27 +58,27 @@ const Contact: React.FC = () => {
 
             <div className="space-y-6">
               {[
-                { 
-                  icon: <Mail className="text-cyan-400" />, 
-                  label: "Email", 
+                {
+                  icon: <Mail className="text-cyan-400" />,
+                  label: "Email",
                   value: "lakhanladdha48@gmail.com",
                   href: "mailto:lakhanladdha48@gmail.com"
                 },
-                { 
-                  icon: <MapPin className="text-blue-400" />, 
-                  label: "Location", 
+                {
+                  icon: <MapPin className="text-blue-400" />,
+                  label: "Location",
                   value: "India, Vadodara",
                   href: "https://www.google.com/maps/search/?api=1&query=Vadodara,India"
                 },
-                { 
-                  icon: <Phone className="text-violet-400" />, 
-                  label: "Phone", 
+                {
+                  icon: <Phone className="text-violet-400" />,
+                  label: "Phone",
                   value: "+91 94615 38243",
                   href: "tel:+919461538243"
                 }
               ].map((item, i) => (
-                <a 
-                  key={i} 
+                <a
+                  key={i}
                   href={item.href}
                   target={item.label === "Location" ? "_blank" : undefined}
                   rel={item.label === "Location" ? "noopener noreferrer" : undefined}
@@ -78,11 +101,11 @@ const Contact: React.FC = () => {
                 { icon: Linkedin, href: "https://www.linkedin.com/in/lakhan-laddha-60593b304/" },
                 { icon: Twitter, href: "#" }
               ].map((social, i) => (
-                <a 
-                  key={i} 
-                  href={social.href} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  key={i}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="p-3 glass-panel rounded-full text-slate-400 hover:text-cyan-400 transition-colors"
                 >
                   <social.icon className="w-6 h-6" />
@@ -101,10 +124,11 @@ const Contact: React.FC = () => {
             <form onSubmit={handleSubmit} className="relative space-y-6">
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Your Name</label>
-                <input 
-                  type="text" 
+                <input
+                  type="text"
+                  name="name"
                   value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="w-full bg-slate-900/50 border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-cyan-400 transition-colors"
                   placeholder="John Doe"
                   required
@@ -112,10 +136,11 @@ const Contact: React.FC = () => {
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Your Email</label>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
+                  name="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="w-full bg-slate-900/50 border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-cyan-400 transition-colors"
                   placeholder="lakhanladdha48@gmail.com"
                   required
@@ -123,26 +148,32 @@ const Contact: React.FC = () => {
               </div>
               <div className="space-y-1.5">
                 <label className="text-xs font-bold text-slate-500 uppercase tracking-widest ml-1">Message</label>
-                <textarea 
+                <textarea
+                  name="message"
                   rows={4}
                   value={formData.message}
-                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   className="w-full bg-slate-900/50 border border-white/5 rounded-2xl px-6 py-4 text-white focus:outline-none focus:border-cyan-400 transition-colors resize-none"
                   placeholder="Tell me about your project..."
                   required
                 />
               </div>
-              <button 
+              <button
                 type="submit"
                 className="w-full py-4 bg-cyan-500 text-slate-950 font-bold rounded-2xl flex items-center justify-center gap-3 hover:scale-[1.02] transition-transform active:scale-95"
               >
                 Send Message <Send className="w-5 h-5" />
               </button>
+              {result && (
+                <p className={`text-center text-sm font-bold ${result.includes("Success") ? "text-green-400" : "text-red-400"}`}>
+                  {result}
+                </p>
+              )}
             </form>
           </motion.div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

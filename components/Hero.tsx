@@ -121,10 +121,11 @@ const Hero: React.FC = () => {
             </a>
 
             <a
-              href="#contact"
-              className="group px-8 py-4 glass-panel border border-white/10 text-white font-bold rounded-lg transition-all hover:bg-white/5 hover:scale-105"
+              href="/resume.pdf"
+              download="/Users/lakhanladdha/Downloads/Lakhan Laddha-2.pdf"
+              className="group px-8 py-4 glass-panel border border-white/10 text-white font-bold rounded-lg transition-all hover:bg-white/5 hover:scale-105 flex items-center gap-2"
             >
-              Contact Me
+              Download CV
             </a>
           </motion.div>
 
